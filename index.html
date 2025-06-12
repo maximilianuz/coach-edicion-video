@@ -12,6 +12,7 @@
       max-width: 900px;
       margin: auto;
       padding: 30px;
+      transition: background 0.4s, color 0.4s;
     }
     h1, h2 {
       text-align: center;
@@ -25,90 +26,233 @@
     textarea, input {
       width: 100%;
       padding: 12px;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
       border-radius: 8px;
       border: none;
       font-size: 16px;
       resize: vertical;
+      box-sizing: border-box;
+      background: #eaf8fa;
+      color: #222;
+      transition: background 0.3s, color 0.3s;
+    }
+    textarea:focus, input:focus {
+      outline: 2px solid #00e1ff;
+      background: #fff;
+      color: #000;
     }
     textarea {
       min-height: 80px;
+    }
+    .contador {
+      font-size: 0.90em;
+      color: #b0eaff;
+      float: right;
+      margin-top: -5px;
+      margin-bottom: 10px;
     }
     button {
       background: #00e1ff;
       color: #000;
       border: none;
-      padding: 14px 24px;
-      font-size: 18px;
+      padding: 14px 22px;
+      font-size: 17px;
       border-radius: 10px;
       cursor: pointer;
       display: inline-block;
-      margin: 10px 5px;
-      transition: background 0.3s;
+      margin: 10px 4px 10px 0;
+      transition: background 0.25s, transform 0.15s;
+      font-weight: 600;
     }
-    button:hover {
-      background: #00c2db;
+    button:hover, button:focus {
+      background: #00b8cb;
+      transform: translateY(-2px) scale(1.04);
     }
     #resultado {
       background-color: #f4f4f4;
       color: #000;
       border-radius: 8px;
       padding: 15px;
+      width: 100%;
+      margin-top: 12px;
+      font-family: 'Consolas', 'Menlo', monospace;
     }
     .dark-mode {
       background: #121212;
+      color: #e0e0e0;
+    }
+    .dark-mode textarea, .dark-mode input {
+      background: #25293a;
       color: #eee;
+    }
+    .dark-mode #resultado {
+      background: #232323;
+      color: #e0e0e0;
+    }
+    .requerido {
+      border: 2px solid #ff0059 !important;
+    }
+    .mensaje-accion {
+      margin-left: 10px;
+      color: #00e1ff;
+      font-weight: bold;
+      font-size: 1em;
+      vertical-align: middle;
+      transition: opacity 0.3s;
+    }
+    #videoLinkRed {
+      display:block;
+      margin: 2px 0 7px 0;
+      min-height: 1.2em;
+    }
+    @media (max-width: 700px) {
+      body {
+        padding: 8px;
+      }
+      button {
+        font-size: 16px;
+        padding: 12px 10px;
+      }
+      #resultado {
+        font-size: 15px;
+      }
     }
   </style>
 </head>
 <body>
-
   <h1>🧠 Coach de Edición de Video</h1>
   <button onclick="toggleDarkMode()">🌓 Cambiar Modo</button>
   <p>Completá los campos y generá automáticamente tu prompt maestro para ChatGPT.</p>
 
-  <label>🎬 Link del Video</label>
-  <input type="text" id="videoLink">
+  <form id="formulario" autocomplete="off" onsubmit="event.preventDefault(); generarPrompt();">
+    <label for="videoLink">🎬 Link del Video (YouTube, Instagram, TikTok, Vimeo, etc)</label>
+    <input type="url" id="videoLink" placeholder="Pega aquí el link de tu video" required maxlength="300">
+    <span id="videoLinkRed" style="font-size:0.95em; color:#b0eaff;"></span>
+    <span id="contador-videoLink" class="contador"></span>
 
-  <label>🎯 Intención emocional y narrativa</label>
-  <textarea id="intencion"></textarea>
+    <label for="intencion">🎯 Intención emocional y narrativa</label>
+    <textarea id="intencion" placeholder="Ejemplo: Quiero emocionar, inspirar, etc." maxlength="300"></textarea>
+    <span id="contador-intencion" class="contador"></span>
 
-  <label>👥 Público objetivo y objetivo final</label>
-  <textarea id="publico"></textarea>
+    <label for="publico">👥 Público objetivo y objetivo final</label>
+    <textarea id="publico" placeholder="Ejemplo: Jóvenes creadores, marketing, etc." maxlength="200"></textarea>
+    <span id="contador-publico" class="contador"></span>
 
-  <label>⚙️ Dificultades en el proceso</label>
-  <textarea id="dificultades"></textarea>
+    <label for="dificultades">⚙️ Dificultades en el proceso</label>
+    <textarea id="dificultades" placeholder="Ejemplo: Sincronizar audio, ritmo, etc." maxlength="200"></textarea>
+    <span id="contador-dificultades" class="contador"></span>
 
-  <label>🌟 Parte que más te enorgullece</label>
-  <textarea id="orgullo"></textarea>
+    <label for="orgullo">🌟 Parte que más te enorgullece</label>
+    <textarea id="orgullo" placeholder="Ejemplo: Transiciones, narrativa visual..." maxlength="200"></textarea>
+    <span id="contador-orgullo" class="contador"></span>
 
-  <label>🎧 Música / sonido / efectos</label>
-  <textarea id="sonido"></textarea>
+    <label for="sonido">🎧 Música / sonido / efectos</label>
+    <textarea id="sonido" placeholder="Ejemplo: Música original, efectos de ambiente..." maxlength="200"></textarea>
+    <span id="contador-sonido" class="contador"></span>
 
-  <label>💫 Viaje emocional del espectador</label>
-  <textarea id="viaje"></textarea>
+    <label for="viaje">💫 Viaje emocional del espectador</label>
+    <textarea id="viaje" placeholder="Ejemplo: De la sorpresa a la inspiración..." maxlength="200"></textarea>
+    <span id="contador-viaje" class="contador"></span>
 
-  <label>📊 Qué querés mejorar</label>
-  <textarea id="mejorar"></textarea>
+    <label for="mejorar">📊 Qué querés mejorar</label>
+    <textarea id="mejorar" placeholder="Ejemplo: Mejorar ritmo, color, audio..." maxlength="200"></textarea>
+    <span id="contador-mejorar" class="contador"></span>
 
-  <label>🧠 Qué aprendiste editando este video</label>
-  <textarea id="aprendizaje"></textarea>
+    <label for="aprendizaje">🧠 Qué aprendiste editando este video</label>
+    <textarea id="aprendizaje" placeholder="Ejemplo: Dominar máscaras, efectos, shortcuts..." maxlength="200"></textarea>
+    <span id="contador-aprendizaje" class="contador"></span>
 
-  <label>🔁 Qué repetirías y qué no volverías a hacer</label>
-  <textarea id="repetir"></textarea>
+    <label for="repetir">🔁 Qué repetirías y qué no volverías a hacer</label>
+    <textarea id="repetir" placeholder="Ejemplo: Repetiría el storytelling. No usaría X efecto..." maxlength="200"></textarea>
+    <span id="contador-repetir" class="contador"></span>
 
-  <button onclick="generarPrompt()">📋 Generar Prompt</button>
-  <button onclick="descargarTxt()">💾 Exportar como .txt</button>
-  <button onclick="descargarMd()">📄 Exportar como .md</button>
+    <div style="margin-top:20px;">
+      <button type="button" onclick="generarPrompt()">📋 Generar Prompt</button>
+      <button type="button" onclick="copiarPrompt()">📎 Copiar Prompt</button>
+      <button type="button" onclick="descargarTxt()">💾 Exportar .txt</button>
+      <button type="button" onclick="descargarMd()">📄 Exportar .md</button>
+      <button type="button" onclick="limpiarCampos()">🧹 Limpiar</button>
+      <span id="mensajeAccion" class="mensaje-accion"></span>
+    </div>
+  </form>
 
   <h2>📄 Prompt Generado:</h2>
-  <textarea id="resultado" rows="20"></textarea>
+  <textarea id="resultado" rows="17" readonly placeholder="El prompt aparecerá aquí"></textarea>
 
   <script>
+    // IDs de todos los campos editables
+    const campos = [
+      'videoLink','intencion','publico','dificultades','orgullo','sonido',
+      'viaje','mejorar','aprendizaje','repetir'
+    ];
+
+    function getPlataforma(link) {
+      if (/youtube\.com|youtu\.be/i.test(link)) return "YouTube";
+      if (/instagram\.com/i.test(link)) return "Instagram";
+      if (/tiktok\.com/i.test(link)) return "TikTok";
+      if (/vimeo\.com/i.test(link)) return "Vimeo";
+      if (/facebook\.com/i.test(link)) return "Facebook";
+      if (/twitter\.com|x\.com/i.test(link)) return "Twitter/X";
+      if (/drive\.google\.com/i.test(link)) return "Google Drive";
+      if (/dropbox\.com/i.test(link)) return "Dropbox";
+      return null;
+    }
+
+    // Actualiza el contador de caracteres de un campo
+    function actualizarContador(id) {
+      const campo = document.getElementById(id);
+      const contador = document.getElementById('contador-' + id);
+      if (contador && campo) {
+        contador.textContent = `${campo.value.length}/${campo.maxLength || '∞'} caracteres`;
+      }
+    }
+
+    // Guarda todos los campos en localStorage
+    function guardarCampos() {
+      campos.forEach(id => {
+        localStorage.setItem(id, document.getElementById(id).value);
+      });
+    }
+
+    // Restaura todos los campos desde localStorage
+    function restaurarCampos() {
+      campos.forEach(id => {
+        const val = localStorage.getItem(id);
+        if (val !== null) document.getElementById(id).value = val;
+        actualizarContador(id);
+      });
+    }
+
+    // Limpia todos los campos y el resultado
+    function limpiarCampos() {
+      campos.forEach(id => {
+        document.getElementById(id).value = "";
+        localStorage.removeItem(id);
+        actualizarContador(id);
+        document.getElementById(id).classList.remove('requerido');
+      });
+      document.getElementById('resultado').value = "";
+      localStorage.removeItem('ultimoPrompt');
+      mostrarMensaje('¡Formulario limpio!', 1200);
+      document.getElementById('videoLinkRed').textContent = '';
+    }
+
+    // Genera el prompt con validación
     function generarPrompt() {
+      let valido = true;
+      const link = document.getElementById('videoLink');
+      if (!link.value.trim() || !link.checkValidity()) {
+        link.classList.add('requerido');
+        mostrarMensaje('Ingresá un link de video válido', 1600);
+        return;
+      } else {
+        link.classList.remove('requerido');
+      }
+      const plataforma = getPlataforma(link.value.trim()) || "Otra";
       const prompt = `Hola ChatGPT, quiero activar un análisis editorial completo, como mi mentor y coach personal en edición profesional.
 
 🔗 VIDEO: ${videoLink.value}
+🔎 PLATAFORMA: ${plataforma}
 🎯 INTENCIÓN EMOCIONAL Y NARRATIVA: ${intencion.value}
 👥 PÚBLICO OBJETIVO Y OBJETIVO FINAL: ${publico.value}
 ⚙️ DIFICULTADES EN EL PROCESO: ${dificultades.value}
@@ -128,11 +272,31 @@
 6. Cómo refleja mi evolución y estilo
 7. BONUS: análisis en modo Técnico Pro / Artístico Poético / Brutalmente Honesto
 `;
+      const resultado = document.getElementById('resultado');
       resultado.value = prompt;
       localStorage.setItem('ultimoPrompt', prompt);
+      guardarCampos();
+      mostrarMensaje('¡Prompt generado!', 1200);
+    }
+
+    // Copia el prompt generado al portapapeles
+    function copiarPrompt() {
+      const resultado = document.getElementById('resultado');
+      if (!resultado.value) {
+        mostrarMensaje('¡Generá el prompt primero!', 1200);
+        return;
+      }
+      resultado.select();
+      document.execCommand('copy');
+      mostrarMensaje('¡Prompt copiado!', 1100);
     }
 
     function descargarTxt() {
+      const resultado = document.getElementById('resultado');
+      if (!resultado.value) {
+        mostrarMensaje('¡Generá el prompt primero!', 1200);
+        return;
+      }
       const blob = new Blob([resultado.value], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -140,9 +304,15 @@
       a.download = 'prompt_edicion_video.txt';
       a.click();
       URL.revokeObjectURL(url);
+      mostrarMensaje('Descargado .txt', 1000);
     }
 
     function descargarMd() {
+      const resultado = document.getElementById('resultado');
+      if (!resultado.value) {
+        mostrarMensaje('¡Generá el prompt primero!', 1200);
+        return;
+      }
       const blob = new Blob([resultado.value], { type: 'text/markdown' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -150,18 +320,63 @@
       a.download = 'prompt_edicion_video.md';
       a.click();
       URL.revokeObjectURL(url);
+      mostrarMensaje('Descargado .md', 1000);
     }
 
+    // Cambia a modo oscuro/claro
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
+      localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode') ? '1' : '0');
     }
 
-    window.onload = () => {
-      if (localStorage.getItem('ultimoPrompt')) {
-        resultado.value = localStorage.getItem('ultimoPrompt');
+    // Muestra mensaje de acción, con fade
+    function mostrarMensaje(texto, tiempo=1000) {
+      const mensaje = document.getElementById('mensajeAccion');
+      mensaje.textContent = texto;
+      mensaje.style.opacity = 1;
+      setTimeout(() => { mensaje.style.opacity = 0; }, tiempo);
+    }
+
+    // Detecta plataforma de video en el input
+    document.getElementById('videoLink').addEventListener('input', function() {
+      const plataforma = getPlataforma(this.value.trim());
+      const span = document.getElementById('videoLinkRed');
+      if (!this.value.trim()) {
+        span.textContent = '';
+        return;
       }
-    }
-  </script>
+      if (plataforma) {
+        span.textContent = `🔗 Plataforma detectada: ${plataforma}`;
+        span.style.color = "#00e1ff";
+      } else {
+        span.textContent = "⚠️ Plataforma no reconocida. Asegúrate de que tu enlace sea accesible.";
+        span.style.color = "#ffb14c";
+      }
+    });
 
+    // Al cargar la página: restaurar campos, prompt y modo oscuro
+    window.onload = () => {
+      restaurarCampos();
+      if (localStorage.getItem('ultimoPrompt')) {
+        document.getElementById('resultado').value = localStorage.getItem('ultimoPrompt');
+      }
+      if (localStorage.getItem('modoOscuro') === '1') {
+        document.body.classList.add('dark-mode');
+      }
+    };
+
+    // Asignar listeners para guardar y actualizar contadores al escribir
+    campos.forEach(id => {
+      const campo = document.getElementById(id);
+      if (campo) {
+        campo.addEventListener('input', function() {
+          actualizarContador(id);
+          guardarCampos();
+          campo.classList.remove('requerido');
+        });
+        actualizarContador(id);
+      }
+    });
+  </script>
 </body>
 </html>
