@@ -2,170 +2,86 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coach de Edición de Video</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Coach de Edición de Video Potenciado</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      max-width: 900px;
-      margin: auto;
-      padding: 30px;
-      transition: background 0.4s, color 0.4s;
-    }
-    h1, h2 {
-      text-align: center;
-      color: #00e1ff;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin: 15px 0 5px;
-    }
-    textarea, input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 5px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      resize: vertical;
-      box-sizing: border-box;
-      background: #eaf8fa;
-      color: #222;
-      transition: background 0.3s, color 0.3s;
-    }
-    textarea:focus, input:focus {
-      outline: 2px solid #00e1ff;
-      background: #fff;
-      color: #000;
-    }
-    textarea {
-      min-height: 80px;
-    }
-    .contador {
-      font-size: 0.90em;
-      color: #b0eaff;
-      float: right;
-      margin-top: -5px;
-      margin-bottom: 10px;
-    }
-    button {
-      background: #00e1ff;
-      color: #000;
-      border: none;
-      padding: 14px 22px;
-      font-size: 17px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-block;
-      margin: 10px 4px 10px 0;
-      transition: background 0.25s, transform 0.15s;
-      font-weight: 600;
-    }
-    button:hover, button:focus {
-      background: #00b8cb;
-      transform: translateY(-2px) scale(1.04);
-    }
-    #resultado {
-      background-color: #f4f4f4;
-      color: #000;
-      border-radius: 8px;
-      padding: 15px;
-      width: 100%;
-      margin-top: 12px;
-      font-family: 'Consolas', 'Menlo', monospace;
-    }
-    .dark-mode {
-      background: #121212;
-      color: #e0e0e0;
-    }
-    .dark-mode textarea, .dark-mode input {
-      background: #25293a;
-      color: #eee;
-    }
-    .dark-mode #resultado {
-      background: #232323;
-      color: #e0e0e0;
-    }
-    .requerido {
-      border: 2px solid #ff0059 !important;
-    }
-    .mensaje-accion {
-      margin-left: 10px;
-      color: #00e1ff;
-      font-weight: bold;
-      font-size: 1em;
-      vertical-align: middle;
-      transition: opacity 0.3s;
-    }
-    #videoLinkRed {
-      display:block;
-      margin: 2px 0 7px 0;
-      min-height: 1.2em;
-    }
-    @media (max-width: 700px) {
-      body {
-        padding: 8px;
-      }
-      button {
-        font-size: 16px;
-        padding: 12px 10px;
-      }
-      #resultado {
-        font-size: 15px;
-      }
-    }
+    body { font-family: Segoe UI,sans-serif; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:#fff; max-width:950px; margin:auto; padding:30px; transition:background 0.4s;}
+    h1,h2 { text-align:center; color:#00e1ff;}
+    label { font-weight:bold; display:block; margin:15px 0 5px;}
+    textarea,input { width:100%; padding:12px; margin-bottom:5px; border-radius:8px; border:none; font-size:16px; resize:vertical; box-sizing:border-box; background:#eaf8fa; color:#222;}
+    textarea:focus,input:focus { outline:2px solid #00e1ff; background:#fff; color:#000;}
+    textarea { min-height:80px;}
+    .contador { font-size:.90em; color:#b0eaff; float:right; margin-top:-5px; margin-bottom:10px;}
+    button { background:#00e1ff; color:#000; border:none; padding:14px 22px; font-size:17px; border-radius:10px; cursor:pointer; display:inline-block; margin:10px 4px 10px 0; transition:background 0.25s,transform 0.15s; font-weight:600;}
+    button:hover,button:focus { background:#00b8cb; transform:translateY(-2px) scale(1.04);}
+    #resultado { background-color:#f4f4f4; color:#000; border-radius:8px; padding:15px; width:100%; margin-top:12px; font-family:Consolas,Menlo,monospace;}
+    .mensaje-accion { margin-left:10px; color:#00e1ff; font-weight:bold; font-size:1em; vertical-align:middle;}
+    .dark-mode { background:#121212; color:#e0e0e0;}
+    .dark-mode textarea,.dark-mode input { background:#25293a; color:#eee;}
+    .dark-mode #resultado,.dark-mode .help-popup { background:#232323; color:#e0e0e0;}
+    .requerido { border:2px solid #ff0059 !important; animation:shake 0.2s;}
+    @keyframes shake {0%{transform:translateX(0);}25%{transform:translateX(-3px);}50%{transform:translateX(3px);}75%{transform:translateX(-3px);}100%{transform:translateX(0);}}
+    #videoLinkRed { display:block; margin:2px 0 7px 0; min-height:1.2em;}
+    .resumen-campos { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; font-size:.96em; justify-content:center;}
+    .resumen-campos span { background:#00e1ff22; color:#00e1ff; border-radius:7px; padding:2px 8px; min-width:20px; text-align:center; transition:background 0.3s;}
+    .resumen-campos .completo { background:#00e1ff; color:#222; font-weight:bold;}
+    .acciones-compartir { display:inline-block;}
+    .acciones-compartir button { background:#25d366; color:#fff; font-size:1em; padding:8px 13px; margin:0 5px 5px 0; border-radius:7px;}
+    .acciones-compartir button:hover, .acciones-compartir button:focus { background:#20b858;}
+    .seccion-mejoras { background:#111b; border-radius:10px; padding:18px; margin:30px 0 20px 0;}
+    .checklist-mejoras { list-style:none; padding-left:0; margin-bottom:0;}
+    .checklist-mejoras li { margin-bottom:10px; padding:7px 6px; background:#00e1ff13; border-radius:6px; display:flex; align-items:center;}
+    .checklist-mejoras input[type=checkbox] { margin-right:12px; width:20px;height:20px;}
+    .guia-mejora { font-size:0.98em; background:#00b8cb22; color:#00b8cb; border-radius:5px; padding:2px 7px; margin-left:7px;}
+    .btn-mini { font-size:0.92em; padding:4px 9px; background:#00b8cb; color:#fff; border-radius:6px;}
+    .btn-mini:hover { background:#008ba3;}
+    .historial-ciclos { margin:14px 0 8px 0; background:#23232399; border-radius:8px; padding:8px 13px;}
+    .historial-ciclos ul { margin:0 0 7px 0; padding-left:16px;}
+    .historial-ciclos li { color:#b0eaff; cursor:pointer; text-decoration:underline;}
+    .historial-ciclos li:hover { color:#fff;}
+    .notas-eval { width:100%; min-height:55px; border-radius:6px; padding:8px; background:#f4f4f4; color:#101;}
+    .dark-mode .notas-eval { background:#232323; color:#e0e0e0;}
+    @media (max-width:700px) {body{padding:8px;}button{font-size:16px;padding:12px 10px;}#resultado{font-size:15px;}}
   </style>
 </head>
 <body>
   <h1>🧠 Coach de Edición de Video</h1>
   <button onclick="toggleDarkMode()">🌓 Cambiar Modo</button>
-  <p>Completá los campos y generá automáticamente tu prompt maestro para ChatGPT.</p>
-
+  <p>Completá los campos y generá tu prompt para ChatGPT.<br>
+  <b>¡Ahora con checklist de mejoras y ciclos de autoevaluación!</b></p>
+  <div class="resumen-campos" id="resumenCampos" aria-label="Resumen de campos completados"></div>
   <form id="formulario" autocomplete="off" onsubmit="event.preventDefault(); generarPrompt();">
-    <label for="videoLink">🎬 Link del Video (YouTube, Instagram, TikTok, Vimeo, etc)</label>
+    <label for="videoLink">🎬 Link del Video</label>
     <input type="url" id="videoLink" placeholder="Pega aquí el link de tu video" required maxlength="300">
     <span id="videoLinkRed" style="font-size:0.95em; color:#b0eaff;"></span>
     <span id="contador-videoLink" class="contador"></span>
-
     <label for="intencion">🎯 Intención emocional y narrativa</label>
     <textarea id="intencion" placeholder="Ejemplo: Quiero emocionar, inspirar, etc." maxlength="300"></textarea>
     <span id="contador-intencion" class="contador"></span>
-
     <label for="publico">👥 Público objetivo y objetivo final</label>
     <textarea id="publico" placeholder="Ejemplo: Jóvenes creadores, marketing, etc." maxlength="200"></textarea>
     <span id="contador-publico" class="contador"></span>
-
     <label for="dificultades">⚙️ Dificultades en el proceso</label>
     <textarea id="dificultades" placeholder="Ejemplo: Sincronizar audio, ritmo, etc." maxlength="200"></textarea>
     <span id="contador-dificultades" class="contador"></span>
-
     <label for="orgullo">🌟 Parte que más te enorgullece</label>
     <textarea id="orgullo" placeholder="Ejemplo: Transiciones, narrativa visual..." maxlength="200"></textarea>
     <span id="contador-orgullo" class="contador"></span>
-
     <label for="sonido">🎧 Música / sonido / efectos</label>
     <textarea id="sonido" placeholder="Ejemplo: Música original, efectos de ambiente..." maxlength="200"></textarea>
     <span id="contador-sonido" class="contador"></span>
-
     <label for="viaje">💫 Viaje emocional del espectador</label>
     <textarea id="viaje" placeholder="Ejemplo: De la sorpresa a la inspiración..." maxlength="200"></textarea>
     <span id="contador-viaje" class="contador"></span>
-
     <label for="mejorar">📊 Qué querés mejorar</label>
     <textarea id="mejorar" placeholder="Ejemplo: Mejorar ritmo, color, audio..." maxlength="200"></textarea>
     <span id="contador-mejorar" class="contador"></span>
-
     <label for="aprendizaje">🧠 Qué aprendiste editando este video</label>
     <textarea id="aprendizaje" placeholder="Ejemplo: Dominar máscaras, efectos, shortcuts..." maxlength="200"></textarea>
     <span id="contador-aprendizaje" class="contador"></span>
-
     <label for="repetir">🔁 Qué repetirías y qué no volverías a hacer</label>
     <textarea id="repetir" placeholder="Ejemplo: Repetiría el storytelling. No usaría X efecto..." maxlength="200"></textarea>
     <span id="contador-repetir" class="contador"></span>
-
     <div style="margin-top:20px;">
       <button type="button" onclick="generarPrompt()">📋 Generar Prompt</button>
       <button type="button" onclick="copiarPrompt()">📎 Copiar Prompt</button>
@@ -174,18 +90,36 @@
       <button type="button" onclick="limpiarCampos()">🧹 Limpiar</button>
       <span id="mensajeAccion" class="mensaje-accion"></span>
     </div>
+    <div class="acciones-compartir">
+      <button type="button" onclick="compartirWhatsApp()">🟢 Compartir WhatsApp</button>
+    </div>
   </form>
-
   <h2>📄 Prompt Generado:</h2>
-  <textarea id="resultado" rows="17" readonly placeholder="El prompt aparecerá aquí"></textarea>
-
+  <textarea id="resultado" rows="15" readonly placeholder="El prompt aparecerá aquí"></textarea>
+  <div class="seccion-mejoras">
+    <h2>📝 Checklist de Mejoras y Guía</h2>
+    <p>Pega aquí la retroalimentación recibida (de ChatGPT, mentor, etc) y haz clic en <b>Extraer Mejoras</b>:</p>
+    <textarea id="retroInput" placeholder="Pega la retroalimentación recibida..." rows="6"></textarea>
+    <button type="button" onclick="extraerMejoras()">📑 Extraer Mejoras</button>
+    <ul id="mejorasChecklist" class="checklist-mejoras"></ul>
+    <button type="button" onclick="guardarCiclo()">💾 Guardar Ciclo</button>
+    <button type="button" onclick="exportarMejoras('txt')">⬇️ Exportar Mejoras .txt</button>
+    <button type="button" onclick="exportarMejoras('md')">⬇️ Exportar Mejoras .md</button>
+    <div style="margin:15px 0 7px 0;">
+      <label for="notasEval">🗒️ Notas/Autoevaluación de este ciclo:</label>
+      <textarea id="notasEval" class="notas-eval" placeholder="Anota tus reflexiones, aprendizajes o dificultades de este ciclo..."></textarea>
+    </div>
+  </div>
+  <div class="historial-ciclos" id="historialCiclos" style="display:none;">
+    <b>Historial de Ciclos de Mejora:</b>
+    <ul id="listaCiclos"></ul>
+  </div>
   <script>
-    // IDs de todos los campos editables
+    // --------- CAMPOS PRINCIPALES ---------
     const campos = [
       'videoLink','intencion','publico','dificultades','orgullo','sonido',
       'viaje','mejorar','aprendizaje','repetir'
     ];
-
     function getPlataforma(link) {
       if (/youtube\.com|youtu\.be/i.test(link)) return "YouTube";
       if (/instagram\.com/i.test(link)) return "Instagram";
@@ -197,57 +131,48 @@
       if (/dropbox\.com/i.test(link)) return "Dropbox";
       return null;
     }
-
-    // Actualiza el contador de caracteres de un campo
     function actualizarContador(id) {
       const campo = document.getElementById(id);
       const contador = document.getElementById('contador-' + id);
-      if (contador && campo) {
-        contador.textContent = `${campo.value.length}/${campo.maxLength || '∞'} caracteres`;
-      }
+      if (contador && campo)
+        contador.textContent = `${campo.value.length}/${campo.maxLength||'∞'} caracteres`;
+      if (campo.value.length>0 && campo.value.length<7) campo.classList.add('requerido');
+      else campo.classList.remove('requerido');
     }
-
-    // Guarda todos los campos en localStorage
     function guardarCampos() {
-      campos.forEach(id => {
-        localStorage.setItem(id, document.getElementById(id).value);
-      });
+      campos.forEach(id=>localStorage.setItem(id,document.getElementById(id).value));
     }
-
-    // Restaura todos los campos desde localStorage
     function restaurarCampos() {
-      campos.forEach(id => {
-        const val = localStorage.getItem(id);
-        if (val !== null) document.getElementById(id).value = val;
+      campos.forEach(id=>{
+        const val=localStorage.getItem(id);
+        if(val!==null) document.getElementById(id).value=val;
         actualizarContador(id);
       });
     }
-
-    // Limpia todos los campos y el resultado
     function limpiarCampos() {
-      campos.forEach(id => {
-        document.getElementById(id).value = "";
+      campos.forEach(id=>{
+        document.getElementById(id).value="";
         localStorage.removeItem(id);
         actualizarContador(id);
         document.getElementById(id).classList.remove('requerido');
       });
-      document.getElementById('resultado').value = "";
+      document.getElementById('resultado').value="";
       localStorage.removeItem('ultimoPrompt');
-      mostrarMensaje('¡Formulario limpio!', 1200);
-      document.getElementById('videoLinkRed').textContent = '';
+      mostrarMensaje('¡Formulario limpio!',1200);
+      document.getElementById('videoLinkRed').textContent='';
+      actualizarResumenCampos();
     }
-
-    // Genera el prompt con validación
     function generarPrompt() {
-      let valido = true;
       const link = document.getElementById('videoLink');
       if (!link.value.trim() || !link.checkValidity()) {
-        link.classList.add('requerido');
-        mostrarMensaje('Ingresá un link de video válido', 1600);
-        return;
-      } else {
-        link.classList.remove('requerido');
-      }
+        link.classList.add('requerido'); mostrarMensaje('Ingresá un link de video válido', 1600); return;
+      } else { link.classList.remove('requerido'); }
+      let corto = false;
+      campos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo.value.length > 0 && campo.value.length < 7) { campo.classList.add('requerido'); corto=true; }
+      });
+      if (corto) { mostrarMensaje('Algunos campos tienen muy pocos caracteres (mínimo 7)',1800); return;}
       const plataforma = getPlataforma(link.value.trim()) || "Otra";
       const prompt = `Hola ChatGPT, quiero activar un análisis editorial completo, como mi mentor y coach personal en edición profesional.
 
@@ -272,111 +197,197 @@
 6. Cómo refleja mi evolución y estilo
 7. BONUS: análisis en modo Técnico Pro / Artístico Poético / Brutalmente Honesto
 `;
-      const resultado = document.getElementById('resultado');
-      resultado.value = prompt;
-      localStorage.setItem('ultimoPrompt', prompt);
+      document.getElementById('resultado').value=prompt;
+      localStorage.setItem('ultimoPrompt',prompt);
       guardarCampos();
-      mostrarMensaje('¡Prompt generado!', 1200);
+      mostrarMensaje('¡Prompt generado!',1200);
+      actualizarResumenCampos();
     }
-
-    // Copia el prompt generado al portapapeles
     function copiarPrompt() {
-      const resultado = document.getElementById('resultado');
-      if (!resultado.value) {
-        mostrarMensaje('¡Generá el prompt primero!', 1200);
-        return;
-      }
+      const resultado=document.getElementById('resultado');
+      if(!resultado.value){ mostrarMensaje('¡Generá el prompt primero!',1200); return;}
       resultado.select();
       document.execCommand('copy');
-      mostrarMensaje('¡Prompt copiado!', 1100);
+      mostrarMensaje('¡Prompt copiado!',1100);
     }
-
     function descargarTxt() {
-      const resultado = document.getElementById('resultado');
-      if (!resultado.value) {
-        mostrarMensaje('¡Generá el prompt primero!', 1200);
-        return;
-      }
-      const blob = new Blob([resultado.value], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'prompt_edicion_video.txt';
-      a.click();
+      const resultado=document.getElementById('resultado');
+      if(!resultado.value){mostrarMensaje('¡Generá el prompt primero!',1200); return;}
+      const blob=new Blob([resultado.value],{type:'text/plain'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='prompt_edicion_video.txt'; a.click();
       URL.revokeObjectURL(url);
-      mostrarMensaje('Descargado .txt', 1000);
+      mostrarMensaje('Descargado .txt',1000);
     }
-
     function descargarMd() {
-      const resultado = document.getElementById('resultado');
-      if (!resultado.value) {
-        mostrarMensaje('¡Generá el prompt primero!', 1200);
-        return;
-      }
-      const blob = new Blob([resultado.value], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'prompt_edicion_video.md';
-      a.click();
+      const resultado=document.getElementById('resultado');
+      if(!resultado.value){mostrarMensaje('¡Generá el prompt primero!',1200); return;}
+      const blob=new Blob([resultado.value],{type:'text/markdown'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='prompt_edicion_video.md'; a.click();
       URL.revokeObjectURL(url);
-      mostrarMensaje('Descargado .md', 1000);
+      mostrarMensaje('Descargado .md',1000);
     }
-
-    // Cambia a modo oscuro/claro
+    function compartirWhatsApp() {
+      const resultado=document.getElementById('resultado');
+      if(!resultado.value){mostrarMensaje('¡Generá el prompt primero!',1200);return;}
+      const url=`https://wa.me/?text=${encodeURIComponent(resultado.value)}`;
+      window.open(url,'_blank');
+      mostrarMensaje('¡Prompt listo para compartir en WhatsApp!',1200);
+    }
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
-      localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode') ? '1' : '0');
+      localStorage.setItem('modoOscuro',document.body.classList.contains('dark-mode')?'1':'0');
     }
-
-    // Muestra mensaje de acción, con fade
-    function mostrarMensaje(texto, tiempo=1000) {
-      const mensaje = document.getElementById('mensajeAccion');
-      mensaje.textContent = texto;
-      mensaje.style.opacity = 1;
-      setTimeout(() => { mensaje.style.opacity = 0; }, tiempo);
+    function mostrarMensaje(texto,tiempo=1000) {
+      const mensaje=document.getElementById('mensajeAccion');
+      mensaje.textContent=texto; mensaje.style.opacity=1;
+      setTimeout(()=>{mensaje.style.opacity=0;},tiempo);
     }
-
-    // Detecta plataforma de video en el input
-    document.getElementById('videoLink').addEventListener('input', function() {
-      const plataforma = getPlataforma(this.value.trim());
-      const span = document.getElementById('videoLinkRed');
-      if (!this.value.trim()) {
-        span.textContent = '';
-        return;
-      }
-      if (plataforma) {
-        span.textContent = `🔗 Plataforma detectada: ${plataforma}`;
-        span.style.color = "#00e1ff";
-      } else {
-        span.textContent = "⚠️ Plataforma no reconocida. Asegúrate de que tu enlace sea accesible.";
-        span.style.color = "#ffb14c";
-      }
+    document.getElementById('videoLink').addEventListener('input',function(){
+      const plataforma=getPlataforma(this.value.trim());
+      const span=document.getElementById('videoLinkRed');
+      if(!this.value.trim()){span.textContent='';return;}
+      if(plataforma){span.textContent=`🔗 Plataforma detectada: ${plataforma}`;span.style.color="#00e1ff";}
+      else{span.textContent="⚠️ Plataforma no reconocida.";span.style.color="#ffb14c";}
     });
-
-    // Al cargar la página: restaurar campos, prompt y modo oscuro
-    window.onload = () => {
-      restaurarCampos();
-      if (localStorage.getItem('ultimoPrompt')) {
-        document.getElementById('resultado').value = localStorage.getItem('ultimoPrompt');
-      }
-      if (localStorage.getItem('modoOscuro') === '1') {
-        document.body.classList.add('dark-mode');
-      }
-    };
-
-    // Asignar listeners para guardar y actualizar contadores al escribir
-    campos.forEach(id => {
-      const campo = document.getElementById(id);
-      if (campo) {
-        campo.addEventListener('input', function() {
-          actualizarContador(id);
-          guardarCampos();
-          campo.classList.remove('requerido');
+    function actualizarResumenCampos() {
+      const div=document.getElementById('resumenCampos'); div.innerHTML='';
+      campos.forEach(id=>{
+        const val=document.getElementById(id).value.trim();
+        const span=document.createElement('span');
+        span.textContent=document.querySelector('label[for="'+id+'"]').textContent.slice(0,2);
+        if(val.length>=7) span.classList.add('completo');
+        div.appendChild(span);
+      });
+    }
+    campos.forEach(id=>{
+      const campo=document.getElementById(id);
+      if(campo){
+        campo.addEventListener('input',function(){
+          actualizarContador(id); guardarCampos();
+          campo.classList.remove('requerido'); actualizarResumenCampos();
         });
         actualizarContador(id);
       }
     });
+    window.onload=()=>{
+      restaurarCampos();
+      if(localStorage.getItem('ultimoPrompt')){
+        document.getElementById('resultado').value=localStorage.getItem('ultimoPrompt');
+      }
+      if(localStorage.getItem('modoOscuro')==='1'){
+        document.body.classList.add('dark-mode');
+      }
+      actualizarResumenCampos();
+      restaurarCiclos();
+    };
+    // --------- FUNCIONES DE MEJORAS Y CHECKLIST ---------
+    // Mapeo simple de palabras clave de mejora a tutoriales sugeridos
+    const tutorialesSugeridos = [
+      {k:"ritmo",u:"https://www.youtube.com/watch?v=K2tW7f8QZXw",t:"Ajustar ritmo de edición"},
+      {k:"color",u:"https://www.youtube.com/watch?v=Y1b5u7vZpXg",t:"Corrección de color en Premiere"},
+      {k:"audio",u:"https://www.youtube.com/watch?v=0JjTzQ60W1E",t:"Mejorar audio en edición"},
+      {k:"transiciones",u:"https://www.youtube.com/watch?v=Kf1X7pCkqZQ",t:"Transiciones profesionales"},
+      {k:"narrativa",u:"https://www.youtube.com/watch?v=3hFQ6Nh5w3A",t:"Narrativa visual"},
+      {k:"fx",u:"https://www.youtube.com/watch?v=5bczwhgM3Lk",t:"Efectos visuales"},
+      {k:"premiere",u:"https://www.youtube.com/c/AdobePremiereProES",t:"Canal Premiere Pro"},
+      {k:"after",u:"https://www.youtube.com/c/AdobeAfterEffectsES",t:"Canal After Effects"},
+    ];
+    // Extrae mejoras tipo checklist de un texto de feedback
+    function extraerMejoras() {
+      let txt=document.getElementById('retroInput').value;
+      if(!txt){mostrarMensaje("¡Pega el feedback primero!",1300);return;}
+      // Busca frases tipo "Mejorar XXX", "Agregar XXX", "Deberías XXX", "No olvides XXX", "Evitar XXX", etc
+      let posibles = txt.match(/((mejorar|mejora|agregar|añadir|usar|deber[ía|ias]{0,2}|optimizar|evitar|corregir|corregí|probar|no usar)[^\.:\n\r;]{6,60})/gi) || [];
+      // También busca listas (puntos, guiones)
+      posibles = posibles.concat((txt.match(/[-•\d\.]{0,4}\s*([A-ZÁÉÍÓÚa-záéíóú0-9][^\.:\n\r;]{7,70})/g)||[]).map(a=>a.replace(/^[-•\d\.]{0,4}\s*/,"")));
+      // Limpia duplicados y vacíos
+      posibles = posibles.map(a=>a.trim()).filter((v,i,arr)=>v&&arr.indexOf(v)==i);
+      if(posibles.length==0){mostrarMensaje("No se detectaron mejoras claras. Edita o agrega manualmente.",1800);}
+      mostrarChecklist(posibles);
+    }
+    function mostrarChecklist(arr) {
+      const ul=document.getElementById('mejorasChecklist'); ul.innerHTML='';
+      arr.forEach((item,i)=>{
+        const li=document.createElement('li');
+        li.innerHTML = `<input type="checkbox" id="mej${i}"> <span>${item}</span>`;
+        // Sugerencia de tutorial
+        let sug = tutorialesSugeridos.find(t=>item.toLowerCase().includes(t.k));
+        if(sug) li.innerHTML += ` <a class='guia-mejora' href='${sug.u}' target='_blank'>${sug.t}</a>`;
+        ul.appendChild(li);
+      });
+    }
+    // Guardar y restaurar ciclos de mejora
+    function guardarCiclo() {
+      // Guarda checklist + notas
+      let mejoras=[], checks=document.querySelectorAll('#mejorasChecklist li');
+      checks.forEach((li,i)=>{
+        mejoras.push({
+          texto:li.querySelector('span').textContent,
+          hecho:li.querySelector('input[type=checkbox]').checked
+        });
+      });
+      let ciclo = {
+        mejoras,
+        notas:document.getElementById('notasEval').value,
+        fecha:new Date().toLocaleString()
+      };
+      let ciclos=JSON.parse(localStorage.getItem('ciclosMejora')||"[]");
+      ciclos.unshift(ciclo);
+      if(ciclos.length>8) ciclos=ciclos.slice(0,8);
+      localStorage.setItem('ciclosMejora',JSON.stringify(ciclos));
+      mostrarMensaje("¡Ciclo de mejora guardado!",1400);
+      restaurarCiclos();
+    }
+    function restaurarCiclos() {
+      let ciclos=JSON.parse(localStorage.getItem('ciclosMejora')||"[]");
+      const div=document.getElementById('historialCiclos');
+      const ul=document.getElementById('listaCiclos');
+      ul.innerHTML='';
+      if(ciclos.length==0){div.style.display='none';return;}
+      ciclos.forEach((ciclo,idx)=>{
+        const li=document.createElement('li');
+        li.textContent="Ciclo "+(ciclos.length-idx)+" ("+ciclo.fecha+")";
+        li.title="Ver detalles";
+        li.onclick=function(){
+          mostrarChecklist(ciclo.mejoras.map(m=>m.texto));
+          document.getElementById('notasEval').value=ciclo.notas||"";
+          setTimeout(()=>{
+            let checks=document.querySelectorAll('#mejorasChecklist li');
+            ciclo.mejoras.forEach((m,i)=>{
+              if(m.hecho) checks[i].querySelector('input[type=checkbox]').checked=true;
+            });
+          },50);
+          mostrarMensaje("¡Ciclo restaurado!",1100);
+        };
+        ul.appendChild(li);
+      });
+      div.style.display='';
+    }
+    // Exportar mejoras/plan de mejora
+    function exportarMejoras(tipo) {
+      let checks=document.querySelectorAll('#mejorasChecklist li');
+      if(checks.length==0){mostrarMensaje("¡Crea la checklist primero!",1200);return;}
+      let txt="Checklist de Mejora y Autoevaluación\n";
+      txt+="Fecha: "+new Date().toLocaleString()+"\n\n";
+      checks.forEach((li,i)=>{
+        txt+= (li.querySelector('input[type=checkbox]').checked?"[x] ":"[ ] ");
+        txt+= li.querySelector('span').textContent;
+        let guia=li.querySelector('.guia-mejora');
+        if(guia) txt+=` (Guía: ${guia.href})`;
+        txt+="\n";
+      });
+      txt+="\nNotas y Autoevaluación:\n"+(document.getElementById('notasEval').value||"");
+      let blob=new Blob([txt],{type:tipo=='md'?'text/markdown':'text/plain'});
+      let url=URL.createObjectURL(blob);
+      let a=document.createElement('a'); a.href=url;
+      a.download='plan_mejora_video.'+(tipo=='md'?'md':'txt'); a.click();
+      URL.revokeObjectURL(url);
+      mostrarMensaje("¡Exportado!",1100);
+    }
   </script>
 </body>
 </html>
